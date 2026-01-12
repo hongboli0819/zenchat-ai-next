@@ -21,9 +21,10 @@ import {
   deleteTask,
   deleteFailedTasks,
   markStuckTasksAsFailed,
-  extractImageNamesFromTasks,
   cleanupDuplicateTasks,
 } from "@/actions/material";
+// ✅ 纯函数辅助工具 - 来自 L-Core
+import { extractImageNamesFromTasks } from "@/core/services/materialService";
 // ✅ Client-side utilities - 在浏览器中执行（需要 DOM/Canvas）
 import { processZipFile } from "@/shared/lib/material-client";
 import { taskQueue, useTaskQueue } from "@/core/services/taskQueue";

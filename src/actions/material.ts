@@ -6,62 +6,17 @@
  */
 
 import { supabaseServer as supabase } from "@/shared/lib/supabase-server";
-import { runProject } from "@org/zip-folder-extractor";
-import { generateCollageFromBase64 } from "@/shared/lib/collage-browser";
-import { compressImage } from "@muse/image-compressor";
 import type {
   ZipUploadTask,
   ZipUploadTaskInsert,
-  FileTreeNode,
-  TaskResultSummary,
 } from "@/core/types/database";
 
-// ===== 辅助函数 =====
-
-export function extractImageNamesFromTasks(
-  completedTasks: ZipUploadTask[]
-): Set<string> {
-  const imageNames = new Set<string>();
-
-  for (const task of completedTasks) {
-    if (task.status !== "completed" || !task.file_structure) continue;
-
-    const extractFromNode = (node: FileTreeNode) => {
-      if (node.type === "file" && node.mimeType?.startsWith("image/")) {
-        imageNames.add(node.name);
-      }
-      if (node.children) {
-        node.children.forEach(extractFromNode);
-      }
-    };
-
-    extractFromNode(task.file_structure);
-  }
-
-  return imageNames;
-}
-
-export function filterDuplicateUnits<T extends { images: Array<{ originalName: string }> }>(
-  units: T[],
-  existingImageNames: Set<string>
-): { newUnits: T[]; skippedCount: number } {
-  const newUnits: T[] = [];
-  let skippedCount = 0;
-
-  for (const unit of units) {
-    const allExist = unit.images.every((img) =>
-      existingImageNames.has(img.originalName)
-    );
-
-    if (allExist && unit.images.length > 0) {
-      skippedCount++;
-    } else {
-      newUnits.push(unit);
-    }
-  }
-
-  return { newUnits, skippedCount };
-}
+// ===== 辅助函数已移至 src/core/services/materialService.ts =====
+// 请从 "@/core/services/materialService" 导入以下函数：
+// - extractImageNamesFromTasks
+// - filterDuplicateUnits
+// 
+// 原因：Server Actions 文件中所有导出的函数必须是 async 函数
 
 // ===== Server Actions =====
 
