@@ -430,3 +430,4 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onBack }) => {
   );
 };
 
+export default DashboardPage;

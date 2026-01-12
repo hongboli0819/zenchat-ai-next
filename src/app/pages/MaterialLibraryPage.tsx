@@ -427,3 +427,4 @@ export const MaterialLibraryPage: React.FC<MaterialLibraryPageProps> = ({
   );
 };
 
+export default MaterialLibraryPage;
